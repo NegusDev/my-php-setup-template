@@ -1,0 +1,17 @@
+{
+    "name": "enochnegus/my-php-starter-template",
+    "description": "My PHP starter template",
+    "autoload": {
+        "psr-4": {
+            "Example\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Enoch Negus",
+            "email": "enochnegus@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
