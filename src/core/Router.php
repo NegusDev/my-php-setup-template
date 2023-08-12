@@ -55,7 +55,7 @@ Class Router {
 		$method = "POST" || "GET";
 	    $request_uri = self::uri();
 	    if ($_SERVER['REQUEST_METHOD'] === $method) {
-	        if ($request_uri == $url) {
+	        if ($_SERVER['REQUEST_METHOD'] === "POST" || $_SERVER['REQUEST_METHOD'] === "GET") {
 	            if (is_callable($content)) {
 	                $content();
 	            } else {
