@@ -3,7 +3,7 @@
     "description": "My PHP starter template",
     "autoload": {
         "psr-4": {
-            "Example\\": "src/"
+            "": "src/"
         }
     },
     "authors": [
