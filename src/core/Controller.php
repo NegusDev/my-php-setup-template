@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 // CALL NAMESPACE AS SPECIFIED IN COMPOSER.JSON FILE
-namespace Example\Core;
+namespace Example\core;
 
 class Controller {
     public function model(string $model){

@@ -1,7 +1,7 @@
 <?php 
 declare(strict_types=1);
 
-namespace Example\helpers;
+namespace helpers;
 
 
 class Response {

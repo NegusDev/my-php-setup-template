@@ -1,7 +1,7 @@
 <?php 
 declare(strict_types=1);
 
-namespace Example\Core;
+namespace core;
 
 Class Router {
     public static function uri()
