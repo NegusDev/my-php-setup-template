@@ -1,68 +1,85 @@
-<?php 
+<?php
+
 declare(strict_types=1);
 
 namespace core;
 
-Class Router {
-    public static function uri()
+use Closure;
+
+class Router
+{
+
+	private static array $handlers;
+	private static $notFoundHandler;
+
+	private const METHOD_POST = "POST";
+	private const METHOD_GET = "GET";
+
+	public static function get(string $route, $handler)
 	{
-	    return explode('?', $_SERVER['REQUEST_URI'])[0];
-	    // var_dump($_SERVER['REQUEST_URI']);
-	    // exit;
+		self::addHandler(self::METHOD_GET, $route, $handler);
 	}
 
-	public static function fullURL()
+	public static function post($route, $handler)
 	{
-	    return $_SERVER['REQUEST_URI'];
-	    // var_dump($_SERVER['REQUEST_URI']);
-	    // exit;
+		self::addHandler(self::METHOD_POST, $route, $handler);
 	}
 
-	public static function get($url, $content)
+	private static function addHandler(string $method, string $route, callable|string $handler): void
 	{
-	    $request_uri = self::uri();
-	    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	        if ($request_uri == $url) {
-	            if (is_callable($content)) {
-	                $content();
-	            } else {
-	                echo $content;
-	            }
-	            exit;
-	        }
-	    }
-	}
-	
-	public static function post($url, $content)
-	{
-
-	    $request_uri = self::uri();
-
-	    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	        if ($request_uri == $url) {
-	            if (is_callable($content)) {
-	                $content();
-	            } else {
-	                echo $content;
-	            }
-	            exit;
-	        }
-	    }
+		self::$handlers[$method . $route] = [
+			'route' => $route,
+			'method' => $method,
+			'handler' => $handler,
+		];
 	}
 
-	 public static function submit($url, $content)
+	public static function addNotFoundHandler(Closure $handler)
 	{
-		$method = "POST" || "GET";
-	    $request_uri = self::uri();
-	    if ($_SERVER['REQUEST_METHOD'] === $method) {
-	        if ($_SERVER['REQUEST_METHOD'] === "POST" || $_SERVER['REQUEST_METHOD'] === "GET") {
-	            if (is_callable($content)) {
-	                $content();
-	            } else {
-	                echo $content;
-	            }
-	            exit;
-	        }
-	    }
+		self::$notFoundHandler = $handler;
+	}
+
+	public static function any($url, $content)
+	{
+	}
+
+	public static function run()
+	{
+		$request_uri = parse_url($_SERVER['REQUEST_URI']);
+		$request_path = $request_uri['path'];
+		$method = $_SERVER['REQUEST_METHOD'];
+
+		$callback = null;
+		foreach (self::$handlers as $handler) {
+			if ($handler['route'] === $request_path && $method === $handler['method']) {
+				$callback = $handler['handler'];
+				break;
+			}
+		}
+
+		if (!$callback && !empty(self::$notFoundHandler)) {
+			header('HTTP/1.0 404 Not Found');
+			$callback = self::$notFoundHandler;
+		}
+
+		if (is_string($callback)) {
+			if (str_contains($callback, '@')) {
+				list($className, $method) = explode('@', $callback);
+				$handler = new $className();
+				$callback = [$handler, $method];
+			} else {
+				echo $callback;
+			}
+		}
+
+		// if ($callback instanceof Closure) {
+		//     call_user_func_array($callback, [array_merge($_GET, $_POST)]);
+		// } else
+
+
+
+		call_user_func_array($callback, [
+			array_merge($_GET, $_POST)
+		]);
 	}
 }

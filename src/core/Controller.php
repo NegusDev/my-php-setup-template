@@ -1,22 +1,33 @@
 <?php
+
 declare(strict_types=1);
 
-// CALL NAMESPACE AS SPECIFIED IN COMPOSER.JSON FILE
-namespace Example\core;
+namespace Core;
 
-class Controller {
-    public function model(string $model){
-        // Models are initiated here
+class Controller
+{
+    public function loadModel(string $model): object
+    {
+        $modelClass = '\\models\\' . ucfirst($model);
+
+        if (class_exists($modelClass)) {
+            return new $modelClass();
+        } else {
+            die('The model does not exist');
+        }
     }
 
-    public function view(string $view, array $data = [],array $errors = []) {
-        if (file_exists(APP_ROOT.'/Views/'. $view . '.php')) {
-			// IF FILE EXIST
-			require_once APP_ROOT.'/Views/'. $view . '.php';
+    public function loadView(string $view, array $data = [], array $errors = []): void
+    {
+        $viewFile = APP_ROOT . '/views//' . $view . '.php';
 
-		}else {
-			die('The view does not exist');
-		}
+        if (file_exists($viewFile)) {
+            extract($data);
+            extract($errors);
 
+            require_once $viewFile;
+        } else {
+            die('The view does not exist');
+        }
     }
 }

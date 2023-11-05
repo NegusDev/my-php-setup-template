@@ -1,11 +1,21 @@
 <?php
 require_once 'src/require.php';
+use controllers\pagesController;
+use core\Router;
 
-Router::get('/', function () {
-    echo "Index Page";
+
+
+Router::get('/',pagesController::class.'@index');
+
+Router::get('/home',pagesController::class.'@home');
+
+Router::get('/about', 'about page');
+
+
+Router::addNotFoundHandler(function () {
+    echo 'Not Found';
 });
 
-Router::get(Router::uri(), function () {
-    http_response_code(404);
-    echo 'NOT FOUND';
-});
+
+
+Router::run();
