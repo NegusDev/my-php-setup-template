@@ -5,4 +5,7 @@ namespace helpers;
 
 class Validator {
     
+    public function cleanString(...$args) {
+        
+    }
 }

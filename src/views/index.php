@@ -6,7 +6,10 @@
     <title>WELCOME TO THE REAL WORD</title>
 </head>
 <body>
-    <h1>mY PHP SETUP EXAMPLE</h1>
+    <h1></h1>
+
     
 </body>
+
+<script  src="<?= URL_ROOT?>/dist/bundle.js"></script>
 </html>

@@ -20,25 +20,27 @@ class pagesController extends Controller
         // IMPORT MODELS HERE
     }
 
-    public function index(): Response
+    public function index()
     {
         $data = [
             'title' => 'Welcome to my page',
             'datas' => ['Item 1', 'Item 2', 'Item 3'],
-            'name' => $this->modeModel->setName(),
         ];
+        
+        // var_dump($this->modeModel->getName());
 
-        return Response::send($data);
+        $this->loadView('index', $data);
+
     }
 
 
-    public function home()
+    public function home():Response
     {
         $data = [
             'title' => 'Welcome to my page',
             'datas' => ['Item 1', 'Item 2', 'Item 3'],
-            'name' => $this->modeModel->setName(),
+            'name' => $this->modeModel->getName(),
         ];
-        $this->loadView('home', $data);
+        return Response::send($data);
     }
 }

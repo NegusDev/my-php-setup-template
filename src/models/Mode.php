@@ -1,12 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace models;
 
-class Mode {
+use PDO;
 
-    public function setName(): string {   
-        return 'Enoch Negus';
+class Mode
+{
+
+    public function getName(): array
+    {
+        global $PDO;
+        $sql = "SELECT * FROM `users`";
+        $result = $PDO->prepare($sql);
+        $result->execute();
+
+        $users = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        return $users;
     }
-    
 }
