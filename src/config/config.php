@@ -5,4 +5,4 @@ define('ROOT', dirname(dirname(dirname(__FILE__ ))));
 
 
 // URL_ROOT (Dynamic links)
-define('URL_ROOT', 'http://localhost:3050');
+define('URL_ROOT', 'http://172.25.171.19:8000');
