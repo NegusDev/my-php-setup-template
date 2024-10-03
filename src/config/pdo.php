@@ -4,9 +4,9 @@ declare(strict_types=1);
 $database = "mysql";
 $host = 'localhost';
 $port = '3306';
-$db_name = 'test';
+$db_name = 'fussilat_db';
 $username = 'root';
-$password = "";
+$password = "root";
 
 $dsn = "{$database}:host={$host};port={$port};dbname={$db_name};charset=utf8mb4";
 
